@@ -1,7 +1,8 @@
+const { utils } = require('ethers');
 const hre = require('hardhat');
 const ethers = hre.ethers;
 const config = require('../../.config.json');
-const { e18, e18ToDecimal } = require('../../utils/web3-utils');
+const { e18ToDecimal } = require('../../utils/web3-utils');
 
 async function main() {
   await hre.run('compile');
@@ -25,7 +26,7 @@ function run() {
     });
     const whale = owner.provider.getUncheckedSigner(escrowContracts.whale);
     (await ethers.getContractFactory('ForceETH')).deploy(whale._address, {
-      value: e18,
+      value: utils.parseEther('1'),
     });
 
     const keep3r = await ethers.getContractAt('IKeep3rV1', escrowContracts.keep3r, deployer);
@@ -68,10 +69,10 @@ function run() {
     const lpUnderliyngs = await liquidity.getReserves();
     const underlyingAmount = (await liquidity.token0()) == keep3r.address ? lpUnderliyngs.reserve0 : lpUnderliyngs.reserve1;
     const totalSupply = await liquidity.totalSupply();
-    const creditsPerLP = underlyingAmount.mul(e18).div(totalSupply);
+    const creditsPerLP = underlyingAmount.mul(utils.parseEther('1')).div(totalSupply);
     console.log('credits for 1 LP:', e18ToDecimal(creditsPerLP));
-    const amount = e18.mul(50);
-    console.log('adding:', e18ToDecimal(amount.mul(creditsPerLP).div(e18)), 'credits');
+    const amount = utils.parseEther('50');
+    console.log('adding:', e18ToDecimal(amount.mul(creditsPerLP).div(utils.parseEther('1'))), 'credits');
 
     // Transfer LPs from Whale
     // console.log('amount', e18ToDecimal(amount))

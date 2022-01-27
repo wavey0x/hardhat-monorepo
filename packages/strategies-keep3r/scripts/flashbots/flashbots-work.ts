@@ -1,6 +1,5 @@
-import { ContractFactory, Wallet } from 'ethers';
+import { ContractFactory, utils, Wallet } from 'ethers';
 import { run, ethers, network } from 'hardhat';
-import { e18, ZERO_ADDRESS } from '../../utils/web3-utils';
 import config from '../../contracts.json';
 const escrowContracts = config.contracts.mainnet.escrow;
 const mechanicsContracts = config.contracts.mainnet.mechanics;
@@ -43,7 +42,7 @@ async function main() {
     }
   );
 
-  const minerTip = e18.div(100); // 0.01 ETH
+  const minerTip = utils.parseEther('0.01');
   const relayerTx = await stealthRelayer.populateTransaction.executeOnBlock(
     crvStrategyKeep3r.address,
     harvestTx.data,

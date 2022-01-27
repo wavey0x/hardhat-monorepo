@@ -4,8 +4,6 @@ const ethers = hre.ethers;
 const config = require('../../.config.json');
 const mainnetContracts = config.contracts.mainnet;
 
-const { e18, ZERO_ADDRESS } = require('../../utils/web3-utils');
-
 const prompt = new Confirm({
   message: 'Do you wish to deploy OracleBondedKeeper contract?',
 });

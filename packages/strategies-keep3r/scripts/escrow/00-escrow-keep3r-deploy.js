@@ -2,7 +2,6 @@ const { Confirm } = require('enquirer');
 const hre = require('hardhat');
 const ethers = hre.ethers;
 const config = require('../../.config.json');
-const { e18, ZERO_ADDRESS } = require('../../utils/web3-utils');
 
 const prompt = new Confirm({
   message: 'Do you wish to deploy keep3r escrow contract?',
